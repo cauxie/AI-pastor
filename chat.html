@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Pastor Chat</title>
+  <link rel="icon" href="images/favicon1.png" sizes="96x96" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen flex flex-col">
+
+<style>
+/* Animate the border gradient */
+@keyframes rainbow-border {
+  0% { border-color: #f59e0b; }      /* Yellow */
+  16% { border-color: #f87171; }     /* Red */
+  32% { border-color: #34d399; }     /* Green */
+  48% { border-color: #60a5fa; }     /* Blue */
+  64% { border-color: #a78bfa; }     /* Purple */
+  80% { border-color: #facc15; }     /* Gold */
+  100% { border-color: #f59e0b; }    /* Back to yellow */
+}
+
+.focus-rainbow:focus {
+  animation: rainbow-border 2s linear infinite;
+  outline: none; /* Remove default focus */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2); /* optional glow */
+}
+</style>
+
+
+  <!-- Header -->
+  <header class="bg-gray-800 shadow-md p-4 flex justify-center">
+    <h1 class="text-2xl font-bold text-yellow-400">AI Pastor Chat</h1>
+  </header>
+
+  <!-- Chat Section -->
+  <main class="flex-1 flex flex-col items-center justify-start p-4 md:p-8">
+    <section class="w-full max-w-2xl bg-gray-800 rounded-2xl shadow-xl p-6 flex flex-col gap-4">
+
+      <h2 class="text-xl md:text-2xl font-semibold text-yellow-400 text-center">Ask AI Pastor</h2>
+      <p class="text-gray-300 text-center mb-2">Get Bible-based answers, prayers, and guidance.</p>
+
+      <!-- Textarea -->
+      <textarea id="userQuestion"
+  class="w-full p-4 border border-gray-700 rounded-xl focus-rainbow resize-none h-32 bg-gray-900 text-gray-100"
+  placeholder="Ask a question about God’s Word..."></textarea>
+
+
+      <!-- Button -->
+      <button id="askButton"
+        class="bg-yellow-400 text-gray-900 font-semibold py-3 rounded-xl hover:bg-yellow-500 transition-colors">
+        Ask AI Pastor
+      </button>
+
+      <!-- AI Answer -->
+      <div id="aiAnswer" class="mt-4 p-4 bg-gray-700 rounded-xl text-gray-100 whitespace-pre-line min-h-[120px]">
+        <!-- AI response will appear here -->
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 p-4 text-center text-gray-400 text-sm">
+    &copy; 2026 AI Pastor. All rights reserved.
+  </footer>
+
+  <!-- Script -->
+  <script>
+    document.getElementById("askButton").addEventListener("click", async () => {
+      const question = document.getElementById("userQuestion").value;
+      const answerDiv = document.getElementById("aiAnswer");
+
+      if (!question) return alert("Please type a question first.");
+
+      answerDiv.innerHTML = "Thinking...";
+
+      try {
+        const response = await fetch("/api/ask-ai", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await response.json();
+        // Preserve line breaks
+        answerDiv.innerHTML = data.answer || "No answer received.";
+      } catch (err) {
+        console.error(err);
+        answerDiv.innerHTML = "Error connecting to AI Pastor.";
+      }
+    });
+  </script>
+</body>
+</html>
