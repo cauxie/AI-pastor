@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Pastor</title>
-  <link rel="icon" href="images/favicon1.png" sizes="96x96" type="image/png">
+  <link rel="icon" href="images/favicon2.png" sizes="96x96" type="image/png">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -1156,6 +1156,110 @@
   }
 }
 
+.logo-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logo-image {
+  height: 48px;          /* adjust if needed */
+  width: auto;
+  object-fit: contain;
+}
+
+/* POPUP stays the same behavior */
+.logo-popup {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 12px 16px;
+  border-radius: 8px;
+  width: 280px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.logo-wrapper:hover .logo-popup {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.logo-popup .verse {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #f5f5f5;
+  margin-bottom: 10px;
+}
+
+.logo-popup .verse span {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+ 
+  /* ===== TOP RIGHT ICONS ===== */
+.top-icons {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 1rem;
+  z-index: 9999; /* make sure it's above everything */
+}
+
+.top-icons button {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.top-icons button:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.1);
+}
+
+.top-icons svg {
+  width: 1.5rem;
+  height: 1.5rem; /* fixed missing unit */
+  color: #ffffff;
+}
+
+
+
+    /* ===== TOAST NOTIFICATION ===== */
+.toast {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-blur: 10px;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 60;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 
 
@@ -1179,7 +1283,12 @@
   <!-- NAVBAR -->
   <nav class="navbar">
    <div class="logo-wrapper">
-  <div class="logo-text">AI PASTOR</div>
+    <!-- IMAGE PLACEHOLDER -->
+    <img 
+      src="images/favicon2.png" 
+      alt="AI Pastor Logo" 
+      class="logo-image"
+    />
 
   <div class="logo-popup">
     <p class="verse">
@@ -1202,9 +1311,7 @@
       <a href="#">Contact</a>
     </div>
 
-    <div class="account">
-      Account
-    </div>
+    
   </nav>
 
   <!-- HERO -->
@@ -1547,6 +1654,35 @@
 </script>
 
 
+<div id="toast" class="toast">Accounts will be available soon!</div>
+
+
+<script>
+
+const profileBtn = document.querySelector('button[aria-label="Profile"]');
+const toast = document.getElementById("toast");
+
+profileBtn.addEventListener("click", () => {
+  toast.classList.add("show");
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+});
+
+
+</script>
+
+ <!-- TOP RIGHT ICONS -->
+  <div class="top-icons">
+   
+    <button aria-label="Profile">
+      <!-- Profile/User SVG Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196zM15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    </button>
+  </div>
 
 </body>
 </html>
